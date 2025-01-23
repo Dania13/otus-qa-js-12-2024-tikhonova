@@ -12,5 +12,8 @@ export const kolobok = (nameHero) => {
 };
 
 export const newYear = (hero) => {
-  return `${hero}! ${hero}! ${hero}!`;
+  if (['Дед Мороз', 'Снегурочка'].includes(hero)) {
+    return `${hero}! ${hero}! ${hero}!`;
+  }
+  return 'Не будем такого звать';
 };
