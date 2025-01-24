@@ -8,8 +8,15 @@ export default [
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
-  pluginJest,
   {
     ignores: ['node_modules'],
+  },
+  {
+    files: ['**/*.spec.js', '**/*.test.js'],
+    plugins: { jest: pluginJest },
+    languageOptions: { globals: pluginJest.environments.globals.globals },
+    rules: {
+      'jest/valid-expect': 'warn',
+    },
   },
 ];
