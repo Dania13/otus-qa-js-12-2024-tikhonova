@@ -53,7 +53,6 @@ describe('bookstore tests', () => {
       userName: `${name}`,
       password: 'Qwerty123!',
     };
-
     const response = await fetch(`${baseURL}/User`, {
       method: 'POST',
       headers: {
@@ -65,30 +64,34 @@ describe('bookstore tests', () => {
     expect(answer.username).toBe(name);
     expect(answer.userID).not.toBe(undefined);
 
-    // const userID = answer.userID;
-    // await fetch(`${baseURL}/GenerateToken`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(user),
-    // });
+    const userID = answer.userID;
+    try {
+      await fetch(`${baseURL}/GenerateToken`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+    } catch (error) {
+      console.error(error);
+    }
 
-    //TypeError: Cannot convert argument to a ByteString because the character at index 0 has a value of 8226 which is greater than 255.
-    // try {
-    //   (async () => {
-    //     const response = await fetch(`${baseURL}/User/${userID}`, {
-    //       method: 'DELETE',
-    //       headers: {
-    //         Authorization: '•',
-    //       },
-    //       redirect: 'follow',
-    //     });
-    //     const answer = await response.json();
-    //   })();
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      (async () => {
+        const auth =
+          'Basic ' + Buffer.from(name + ':' + user.password).toString('base64');
+        const myHeaders = new Headers();
+        myHeaders.append('Authorization', auth);
+        await fetch(`${baseURL}/User/${userID}`, {
+          method: 'DELETE',
+          headers: myHeaders,
+          redirect: 'follow',
+        });
+      })();
+    } catch (error) {
+      console.error(error);
+    }
   });
   it('generate token with error', async () => {
     const name = faker.person.fullName();
