@@ -9,7 +9,7 @@ export default [
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
   {
-    ignores: ['node_modules'],
+    ignores: ['node_modules', 'coverage'],
   },
   {
     files: ['**/*.spec.js', '**/*.test.js'],
