@@ -63,6 +63,7 @@ describe('bookstore tests', () => {
     const answer = await response.json();
     expect(answer.username).toBe(name);
     expect(answer.userID).not.toBe(undefined);
+    expect(typeof answer.userID).toBe('string');
 
     const userID = answer.userID;
     try {
@@ -135,6 +136,7 @@ describe('bookstore tests', () => {
     });
     const answer = await response.json();
     expect(answer.token).not.toBe(undefined);
+    expect(typeof answer.token).toBe('string');
     expect(answer.status).toBe('Success');
   });
 });
