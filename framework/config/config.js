@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker';
 const name = faker.person.fullName();
 
 export const config = {
-  baseURL: 'https://bookstore.demoqa.com/Account/v1',
+  baseURL: process.env.BOOKSTORE_BASE_URL,
   credentials: {
     userName: `${name}`,
-    password: 'Qwerty123!',
+    password: process.env.BOOKSTORE_PASSWORD,
   },
 };
