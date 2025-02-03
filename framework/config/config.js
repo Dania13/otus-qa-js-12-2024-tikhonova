@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { faker } from '@faker-js/faker';
 
 const name = faker.person.fullName();
