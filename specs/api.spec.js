@@ -1,13 +1,12 @@
-import { faker } from '@faker-js/faker';
+import { config } from '../framework/config/config';
 
 describe('bookstore tests', () => {
-  const baseURL = 'https://bookstore.demoqa.com/Account/v1';
+  const baseURL = config.baseURL;
 
   it('create existing user', async () => {
-    const name = faker.person.fullName();
     let user = {
-      userName: `${name}`,
-      password: 'Qwerty123!',
+      userName: `${config.credentials.userName}1`,
+      password: `${config.credentials.password}`,
     };
 
     await fetch(`${baseURL}/User`, {
@@ -30,7 +29,7 @@ describe('bookstore tests', () => {
   });
   it('create user with non valid password', async () => {
     let user = {
-      userName: 'test',
+      userName: `${config.credentials.userName}2`,
       password: 'Qwerty',
     };
 
@@ -48,10 +47,9 @@ describe('bookstore tests', () => {
     expect(answer.code).toBe('1300');
   });
   it('create user success', async () => {
-    const name = faker.person.fullName();
     let user = {
-      userName: `${name}`,
-      password: 'Qwerty123!',
+      userName: `${config.credentials.userName}3`,
+      password: `${config.credentials.password}`,
     };
     const response = await fetch(`${baseURL}/User`, {
       method: 'POST',
@@ -61,7 +59,7 @@ describe('bookstore tests', () => {
       body: JSON.stringify(user),
     });
     const answer = await response.json();
-    expect(answer.username).toBe(name);
+    expect(answer.username).toBe(`${user.userName}`);
     expect(answer.userID).not.toBe(undefined);
     expect(typeof answer.userID).toBe('string');
 
@@ -81,7 +79,8 @@ describe('bookstore tests', () => {
     try {
       (async () => {
         const auth =
-          'Basic ' + Buffer.from(name + ':' + user.password).toString('base64');
+          'Basic ' +
+          Buffer.from(user.userName + ':' + user.password).toString('base64');
         const myHeaders = new Headers();
         myHeaders.append('Authorization', auth);
         await fetch(`${baseURL}/User/${userID}`, {
@@ -95,9 +94,8 @@ describe('bookstore tests', () => {
     }
   });
   it('generate token with error', async () => {
-    const name = faker.person.fullName();
     let user = {
-      userName: `${name}`,
+      userName: `${config.credentials.userName}4`,
     };
 
     const response = await fetch(`${baseURL}/GenerateToken`, {
@@ -113,10 +111,9 @@ describe('bookstore tests', () => {
   });
 
   it('generate token success', async () => {
-    const name = faker.person.fullName();
     let user = {
-      userName: `${name}`,
-      password: 'Qwerty123!',
+      userName: `${config.credentials.userName}5`,
+      password: `${config.credentials.password}`,
     };
 
     await fetch(`${baseURL}/User`, {
