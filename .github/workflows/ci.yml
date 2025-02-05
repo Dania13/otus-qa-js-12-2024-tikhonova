@@ -14,5 +14,5 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run lint:ci
-      - run: echo "${{env.ENV_FILE}}" >> .env
+      - run: echo "${{ vars.ENV_FILE }}" >> .env
       - run: npm run test
