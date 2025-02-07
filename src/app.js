@@ -43,6 +43,12 @@ export const getTotal = (items = [], discount = 0) => {
   return total * (1 - discount / 100);
 };
 
+/**
+ * Подсчёт суммы баллов
+ *
+ * @param {[{name: string, score: number}]} scores
+ * @returns {number}
+ */
 function getScore(scores) {
   let sum = 0;
   for (const learner in scores) {
