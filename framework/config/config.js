@@ -1,11 +1,8 @@
-import { faker } from '@faker-js/faker';
-
-const name = faker.person.fullName();
-
 export const config = {
   baseURL: process.env.TEST_BOOKSTORE_BASE_URL,
   credentials: {
-    userName: `${name}`,
+    userName: process.env.TEST_BOOKSTORE_USERNAME,
     password: process.env.TEST_BOOKSTORE_PASSWORD,
+    userName2: process.env.TEST_BOOKSTORE_USERNAME2,
   },
 };

@@ -1,4 +1,5 @@
 import { config } from '../framework/config/config';
+import { generateUserCredentials } from '../framework/fixtures/userFixtures';
 
 describe('bookstore tests', () => {
   const baseURL = config.baseURL;
@@ -29,7 +30,7 @@ describe('bookstore tests', () => {
   });
   it('create user with non valid password', async () => {
     let user = {
-      userName: `${config.credentials.userName}2`,
+      userName: `${generateUserCredentials().userName}`,
       password: 'Qwerty',
     };
 
@@ -48,8 +49,8 @@ describe('bookstore tests', () => {
   });
   it('create user success', async () => {
     let user = {
-      userName: `${config.credentials.userName}3`,
-      password: `${config.credentials.password}`,
+      userName: `${generateUserCredentials().userName}`,
+      password: `${generateUserCredentials().password}`,
     };
     const response = await fetch(`${baseURL}/User`, {
       method: 'POST',
@@ -95,7 +96,7 @@ describe('bookstore tests', () => {
   });
   it('generate token with error', async () => {
     let user = {
-      userName: `${config.credentials.userName}4`,
+      userName: `${generateUserCredentials().userName}`,
     };
 
     const response = await fetch(`${baseURL}/GenerateToken`, {
@@ -112,8 +113,8 @@ describe('bookstore tests', () => {
 
   it('generate token success', async () => {
     let user = {
-      userName: `${config.credentials.userName}5`,
-      password: `${config.credentials.password}`,
+      userName: `${generateUserCredentials().userName}`,
+      password: `${generateUserCredentials().password}`,
     };
 
     await fetch(`${baseURL}/User`, {
