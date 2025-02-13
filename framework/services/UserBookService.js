@@ -7,10 +7,13 @@ const client = axios.create({
 });
 
 export const authorized = async ({ userName, password }) => {
-  const response = await client.post(`${config.baseURL}/Authorized`, {
-    userName,
-    password,
-  });
+  const response = await client.post(
+    `${config.baseURL}/Account/v1/Authorized`,
+    {
+      userName,
+      password,
+    },
+  );
 
   return {
     headers: response.headers,
@@ -20,10 +23,13 @@ export const authorized = async ({ userName, password }) => {
 };
 
 export const generateToken = async ({ userName, password }) => {
-  const response = await client.post(`${config.baseURL}/GenerateToken`, {
-    userName,
-    password,
-  });
+  const response = await client.post(
+    `${config.baseURL}/Account/v1/GenerateToken`,
+    {
+      userName,
+      password,
+    },
+  );
 
   return {
     headers: response.headers,
@@ -32,7 +38,7 @@ export const generateToken = async ({ userName, password }) => {
   };
 };
 export const createUser = async ({ userName, password }) => {
-  const response = await client.post(`${config.baseURL}/User`, {
+  const response = await client.post(`${config.baseURL}/Account/v1/User`, {
     userName,
     password,
   });
@@ -45,11 +51,14 @@ export const createUser = async ({ userName, password }) => {
 };
 
 export const deleteUser = async (userID, token) => {
-  const response = await client.delete(`${config.baseURL}/User/${userID}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await client.delete(
+    `${config.baseURL}/Account/v1/User/${userID}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return {
     headers: response.headers,
@@ -59,11 +68,14 @@ export const deleteUser = async (userID, token) => {
 };
 
 export const infoUser = async (userID, token) => {
-  const response = await client.get(`${config.baseURL}/User/${userID}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await client.get(
+    `${config.baseURL}/Account/v1/User/${userID}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return {
     headers: response.headers,
