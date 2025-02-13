@@ -6,7 +6,7 @@ const client = axios.create({
   validateStatus: () => true,
 });
 
-export const authorized = async ({ userName, password }) => {
+const authorizedUser = async ({ userName, password }) => {
   const response = await client.post(
     `${config.baseURL}/Account/v1/Authorized`,
     {
@@ -22,7 +22,7 @@ export const authorized = async ({ userName, password }) => {
   };
 };
 
-export const generateToken = async ({ userName, password }) => {
+const generateToken = async ({ userName, password }) => {
   const response = await client.post(
     `${config.baseURL}/Account/v1/GenerateToken`,
     {
@@ -37,7 +37,8 @@ export const generateToken = async ({ userName, password }) => {
     data: await response.data,
   };
 };
-export const createUser = async ({ userName, password }) => {
+
+const createUser = async ({ userName, password }) => {
   const response = await client.post(`${config.baseURL}/Account/v1/User`, {
     userName,
     password,
@@ -50,7 +51,7 @@ export const createUser = async ({ userName, password }) => {
   };
 };
 
-export const deleteUser = async (userID, token) => {
+const deleteUser = async (userID, token) => {
   const response = await client.delete(
     `${config.baseURL}/Account/v1/User/${userID}`,
     {
@@ -82,4 +83,12 @@ export const infoUser = async (userID, token) => {
     status: response.status,
     data: await response.data,
   };
+};
+
+export default {
+  authorized: authorizedUser,
+  generateToken: generateToken,
+  create: createUser,
+  delete: deleteUser,
+  get: infoUser,
 };

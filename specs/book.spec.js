@@ -1,30 +1,19 @@
-import { generateUserCredentials } from '../framework/fixtures/userFixtures';
-import {
-  booked,
-  bookInfo,
-  changedBook,
-  deleteBookforUser,
-} from '../framework/services/BookService';
-import {
-  createUser,
-  deleteUser,
-  generateToken,
-} from '../framework/services/UserBookService';
+import { BookService, UserBookService, UserFixture } from '../framework';
 
-describe('test booked', () => {
+describe('test BookService.booked', () => {
   let userID, token;
   beforeEach(async () => {
-    const user = generateUserCredentials();
-    userID = (await createUser(user)).data.userID;
-    token = (await generateToken(user)).data.token;
+    const user = UserFixture.generateUserCredentials();
+    userID = (await UserBookService.create(user)).data.userID;
+    token = (await UserBookService.generateToken(user)).data.token;
   });
   afterEach(async () => {
-    await deleteUser(userID, token);
+    await UserBookService.delete(userID, token);
   });
   it('success', async () => {
     const isbn = '9781491950296';
 
-    const response = await booked(token, userID, isbn);
+    const response = await BookService.booked(token, userID, isbn);
     expect(response.status).toBe(201);
     expect(response.data.books[0].isbn).toBe(isbn);
   });
@@ -32,8 +21,8 @@ describe('test booked', () => {
   it('add two books', async () => {
     const isbn = ['9781491950296', '9781449325862'];
 
-    await booked(token, userID, isbn[0]);
-    const response = await booked(token, userID, isbn[1]);
+    await BookService.booked(token, userID, isbn[0]);
+    const response = await BookService.booked(token, userID, isbn[1]);
 
     expect(response.status).toBe(201);
     expect(response.data.books[0].isbn).toBe(isbn[1]);
@@ -42,7 +31,7 @@ describe('test booked', () => {
   it('with not exist book', async () => {
     const isbn = '9781491950297';
 
-    const response = await booked(token, userID, isbn);
+    const response = await BookService.booked(token, userID, isbn);
 
     expect(response.status).toBe(400);
     expect(response.data.code).toBe('1205');
@@ -55,18 +44,18 @@ describe('test booked', () => {
 describe('test update book', () => {
   let userID, token;
   beforeEach(async () => {
-    const user = generateUserCredentials();
-    userID = (await createUser(user)).data.userID;
-    token = (await generateToken(user)).data.token;
+    const user = UserFixture.generateUserCredentials();
+    userID = (await UserBookService.create(user)).data.userID;
+    token = (await UserBookService.generateToken(user)).data.token;
   });
   afterEach(async () => {
-    await deleteUser(userID, token);
+    await UserBookService.delete(userID, token);
   });
   it('success', async () => {
     const isbn = ['9781491950296', '9781449325862'];
 
-    await booked(token, userID, isbn[0]);
-    const response = await changedBook(token, userID, isbn[0], isbn[1]);
+    await BookService.booked(token, userID, isbn[0]);
+    const response = await BookService.change(token, userID, isbn[0], isbn[1]);
 
     expect(response.status).toBe(200);
     expect(response.data.books[0].isbn).toBe(isbn[1]);
@@ -76,8 +65,8 @@ describe('test update book', () => {
   it("changed book not user's", async () => {
     const isbn = ['9781491950296', '9781449325862', '9781449331818'];
 
-    await booked(token, userID, isbn[0]);
-    const response = await changedBook(token, userID, isbn[1], isbn[2]);
+    await BookService.booked(token, userID, isbn[0]);
+    const response = await BookService.change(token, userID, isbn[1], isbn[2]);
 
     expect(response.status).toBe(400);
     expect(response.data.code).toBe('1206');
@@ -89,8 +78,13 @@ describe('test update book', () => {
   it('with not authorized user', async () => {
     const isbn = ['9781491950296', '9781449325862'];
 
-    await booked(token, userID, isbn[0]);
-    const response = await changedBook(token + '2', userID, isbn[0], isbn[1]);
+    await BookService.booked(token, userID, isbn[0]);
+    const response = await BookService.change(
+      token + '2',
+      userID,
+      isbn[0],
+      isbn[1],
+    );
 
     expect(response.status).toBe(401);
     expect(response.data.code).toBe('1200');
@@ -101,7 +95,7 @@ describe('test update book', () => {
 describe('test info book', () => {
   it('success', async () => {
     const isbn = '9781491950296';
-    const response = await bookInfo(isbn);
+    const response = await BookService.info(isbn);
 
     expect(response.status).toBe(200);
     expect(response.data.isbn).toBe(isbn);
@@ -110,7 +104,7 @@ describe('test info book', () => {
 
   it('with not exsist book', async () => {
     const isbn = '9781491950297';
-    const response = await bookInfo(isbn);
+    const response = await BookService.info(isbn);
 
     expect(response.status).toBe(400);
     expect(response.data.code).toBe('1205');
@@ -120,7 +114,7 @@ describe('test info book', () => {
   });
 
   it('without book', async () => {
-    const response = await bookInfo();
+    const response = await BookService.info();
 
     expect(response.status).toBe(400);
     expect(response.data.code).toBe('1205');
@@ -133,18 +127,18 @@ describe('test info book', () => {
 describe('test delete book', () => {
   let userID, token;
   beforeEach(async () => {
-    const user = generateUserCredentials();
-    userID = (await createUser(user)).data.userID;
-    token = (await generateToken(user)).data.token;
+    const user = UserFixture.generateUserCredentials();
+    userID = (await UserBookService.create(user)).data.userID;
+    token = (await UserBookService.generateToken(user)).data.token;
   });
   afterEach(async () => {
-    await deleteUser(userID, token);
+    await UserBookService.delete(userID, token);
   });
   it('success', async () => {
     const isbn = '9781491950296';
 
-    await booked(token, userID, isbn);
-    const response = await deleteBookforUser(token, userID, isbn);
+    await BookService.booked(token, userID, isbn);
+    const response = await BookService.delete(token, userID, isbn);
 
     expect(response.status).toBe(204);
   });
@@ -152,9 +146,9 @@ describe('test delete book', () => {
   it('with one book out of two', async () => {
     const isbn = ['9781491950296', '9781449325862'];
 
-    await booked(token, userID, isbn[0]);
-    await booked(token, userID, isbn[1]);
-    const response = await deleteBookforUser(token, userID, isbn[0]);
+    await BookService.booked(token, userID, isbn[0]);
+    await BookService.booked(token, userID, isbn[1]);
+    const response = await BookService.delete(token, userID, isbn[0]);
 
     expect(response.status).toBe(204);
   });
@@ -162,8 +156,8 @@ describe('test delete book', () => {
   it('with not exist book for user', async () => {
     const isbn = ['9781491950296', '9781449325862'];
 
-    await booked(token, userID, isbn[0]);
-    const response = await deleteBookforUser(token, userID, isbn[1]);
+    await BookService.booked(token, userID, isbn[0]);
+    const response = await BookService.delete(token, userID, isbn[1]);
 
     expect(response.status).toBe(400);
     expect(response.data.code).toBe('1206');

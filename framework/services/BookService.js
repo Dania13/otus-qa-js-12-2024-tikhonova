@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import { config } from '../config/config';
 
-export const booked = async (token, userID, isbn) => {
+const bookedForUser = async (token, userID, isbn) => {
   const response = await supertest(config.baseURL)
     .post('/BookStore/v1/Books')
     .set('Authorization', 'Bearer ' + token)
@@ -21,7 +21,7 @@ export const booked = async (token, userID, isbn) => {
   };
 };
 
-export const changedBook = async (token, userID, oldISBN, newISBN) => {
+const changedBook = async (token, userID, oldISBN, newISBN) => {
   const response = await supertest(config.baseURL)
     .put(`/BookStore/v1/Books/${oldISBN}`)
     .set('Authorization', 'Bearer ' + token)
@@ -37,7 +37,7 @@ export const changedBook = async (token, userID, oldISBN, newISBN) => {
   };
 };
 
-export const bookInfo = async (ISBN) => {
+const bookInfo = async (ISBN) => {
   const response = await supertest(`${config.baseURL}`).get(
     `/BookStore/v1/Book?ISBN=${ISBN}`,
   );
@@ -49,7 +49,7 @@ export const bookInfo = async (ISBN) => {
   };
 };
 
-export const deleteBookforUser = async (token, userID, ISBN) => {
+const deleteBookforUser = async (token, userID, ISBN) => {
   const response = await supertest(config.baseURL)
     .delete('/BookStore/v1/Book')
     .set('Authorization', 'Bearer ' + token)
@@ -63,4 +63,11 @@ export const deleteBookforUser = async (token, userID, ISBN) => {
     status: response.status,
     data: await response.body,
   };
+};
+
+export default {
+  booked: bookedForUser,
+  change: changedBook,
+  info: bookInfo,
+  delete: deleteBookforUser,
 };

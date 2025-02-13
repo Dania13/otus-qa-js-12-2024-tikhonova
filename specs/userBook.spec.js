@@ -1,12 +1,5 @@
+import { UserBookService, UserFixture } from '../framework';
 import { config } from '../framework/config/config';
-import { generateUserCredentials } from '../framework/fixtures/userFixtures';
-import {
-  authorized,
-  createUser,
-  deleteUser,
-  generateToken,
-  infoUser,
-} from '../framework/services/UserBookService';
 
 describe('test autorization', () => {
   it('success', async () => {
@@ -15,8 +8,8 @@ describe('test autorization', () => {
       password: `${config.credentials.password}`,
     };
 
-    await generateToken(user);
-    const response = await authorized(user);
+    await UserBookService.generateToken(user);
+    const response = await UserBookService.authorized(user);
 
     expect(response.status).toBe(200);
     expect(response.data).toBe(true);
@@ -27,20 +20,20 @@ describe('test autorization', () => {
       userName: `${config.credentials.userName}`,
     };
 
-    const response = await authorized(user);
+    const response = await UserBookService.authorized(user);
 
     expect(response.status).toBe(400);
     expect(response.data.code).toBe('1200');
     expect(response.data.message).toBe('UserName and Password required.');
   });
 
-  it('without generateToken', async () => {
+  it('without UserBookService.generateToken', async () => {
     const user = {
       userName: `${config.credentials.userName2}`,
       password: `${config.credentials.password}`,
     };
 
-    const response = await authorized(user);
+    const response = await UserBookService.authorized(user);
 
     expect(response.status).toBe(200);
     expect(response.data).toBe(false);
@@ -49,24 +42,24 @@ describe('test autorization', () => {
 
 describe('test remove user', () => {
   it('success', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
+    const user = UserFixture.generateUserCredentials();
+    const userID = (await UserBookService.create(user)).data.userID;
 
-    const token = (await generateToken(user)).data.token;
+    const token = (await UserBookService.generateToken(user)).data.token;
 
-    await authorized(user);
-    const response = await deleteUser(userID, token);
+    await UserBookService.authorized(user);
+    const response = await UserBookService.delete(userID, token);
 
     expect(response.status).toBe(204);
     expect(response.data).toBe('');
   });
 
-  it('without authorized', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
+  it('without UserBookService.authorized', async () => {
+    const user = UserFixture.generateUserCredentials();
+    const userID = (await UserBookService.create(user)).data.userID;
 
-    await authorized(user);
-    const response = await deleteUser(userID);
+    await UserBookService.authorized(user);
+    const response = await UserBookService.delete(userID);
 
     expect(response.status).toBe(401);
     expect(response.data.code).toBe('1200');
@@ -74,12 +67,12 @@ describe('test remove user', () => {
   });
 
   it('with not exist user', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
+    const user = UserFixture.generateUserCredentials();
+    const userID = (await UserBookService.create(user)).data.userID;
+    const token = (await UserBookService.generateToken(user)).data.token;
 
-    await deleteUser(userID, token);
-    const response = await deleteUser(userID, token);
+    await UserBookService.delete(userID, token);
+    const response = await UserBookService.delete(userID, token);
 
     expect(response.status).toBe(200);
     expect(response.data.code).toBe('1207');
@@ -87,28 +80,28 @@ describe('test remove user', () => {
   });
 });
 
-describe('test info user', () => {
+describe('test get user', () => {
   let userID, user, token;
   beforeEach(async () => {
-    user = generateUserCredentials();
-    userID = (await createUser(user)).data.userID;
+    user = UserFixture.generateUserCredentials();
+    userID = (await UserBookService.create(user)).data.userID;
   });
   afterEach(async () => {
-    await deleteUser(userID, token);
+    await UserBookService.delete(userID, token);
   });
   it('success', async () => {
-    const token = (await generateToken(user)).data.token;
+    const token = (await UserBookService.generateToken(user)).data.token;
 
-    await authorized(user);
-    const response = await infoUser(userID, token);
+    await UserBookService.authorized(user);
+    const response = await UserBookService.get(userID, token);
     expect(response.status).toBe(200);
     expect(response.data.userId).toBe(userID);
     expect(response.data.username).toBe(user.userName);
   });
 
-  it('without authorized', async () => {
-    await authorized(user);
-    const response = await infoUser(userID);
+  it('without UserBookService.authorized', async () => {
+    await UserBookService.authorized(user);
+    const response = await UserBookService.get(userID);
 
     expect(response.status).toBe(401);
     expect(response.data.code).toBe('1200');
@@ -116,10 +109,10 @@ describe('test info user', () => {
   });
 
   it('with not exist user', async () => {
-    const token = (await generateToken(user)).data.token;
+    const token = (await UserBookService.generateToken(user)).data.token;
 
-    await deleteUser(userID, token);
-    const response = await infoUser(userID, token);
+    await UserBookService.delete(userID, token);
+    const response = await UserBookService.get(userID, token);
 
     expect(response.status).toBe(401);
     expect(response.data.code).toBe('1207');
