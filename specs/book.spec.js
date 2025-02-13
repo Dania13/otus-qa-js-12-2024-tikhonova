@@ -7,15 +7,21 @@ import {
 } from '../framework/services/BookService';
 import {
   createUser,
-  // deleteUser,
+  deleteUser,
   generateToken,
 } from '../framework/services/UserBookService';
 
 describe('test booked', () => {
-  it('success', async () => {
+  let userID, token;
+  beforeEach(async () => {
     const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
+    userID = (await createUser(user)).data.userID;
+    token = (await generateToken(user)).data.token;
+  });
+  afterEach(async () => {
+    await deleteUser(userID, token);
+  });
+  it('success', async () => {
     const isbn = '9781491950296';
 
     const response = await booked(token, userID, isbn);
@@ -24,9 +30,6 @@ describe('test booked', () => {
   });
 
   it('add two books', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
     const isbn = ['9781491950296', '9781449325862'];
 
     await booked(token, userID, isbn[0]);
@@ -37,9 +40,6 @@ describe('test booked', () => {
   });
 
   it('with not exist book', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
     const isbn = '9781491950297';
 
     const response = await booked(token, userID, isbn);
@@ -53,10 +53,16 @@ describe('test booked', () => {
 });
 
 describe('test update book', () => {
-  it('success', async () => {
+  let userID, token;
+  beforeEach(async () => {
     const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
+    userID = (await createUser(user)).data.userID;
+    token = (await generateToken(user)).data.token;
+  });
+  afterEach(async () => {
+    await deleteUser(userID, token);
+  });
+  it('success', async () => {
     const isbn = ['9781491950296', '9781449325862'];
 
     await booked(token, userID, isbn[0]);
@@ -68,9 +74,6 @@ describe('test update book', () => {
   });
 
   it("changed book not user's", async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
     const isbn = ['9781491950296', '9781449325862', '9781449331818'];
 
     await booked(token, userID, isbn[0]);
@@ -84,9 +87,6 @@ describe('test update book', () => {
   });
 
   it('with not authorized user', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
     const isbn = ['9781491950296', '9781449325862'];
 
     await booked(token, userID, isbn[0]);
@@ -131,10 +131,16 @@ describe('test info book', () => {
 });
 
 describe('test delete book', () => {
-  it('success', async () => {
+  let userID, token;
+  beforeEach(async () => {
     const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
+    userID = (await createUser(user)).data.userID;
+    token = (await generateToken(user)).data.token;
+  });
+  afterEach(async () => {
+    await deleteUser(userID, token);
+  });
+  it('success', async () => {
     const isbn = '9781491950296';
 
     await booked(token, userID, isbn);
@@ -144,9 +150,6 @@ describe('test delete book', () => {
   });
 
   it('with one book out of two', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
     const isbn = ['9781491950296', '9781449325862'];
 
     await booked(token, userID, isbn[0]);
@@ -157,9 +160,6 @@ describe('test delete book', () => {
   });
 
   it('with not exist book for user', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-    const token = (await generateToken(user)).data.token;
     const isbn = ['9781491950296', '9781449325862'];
 
     await booked(token, userID, isbn[0]);

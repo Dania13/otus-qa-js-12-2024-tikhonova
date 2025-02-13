@@ -88,9 +88,15 @@ describe('test remove user', () => {
 });
 
 describe('test info user', () => {
+  let userID, user, token;
+  beforeEach(async () => {
+    user = generateUserCredentials();
+    userID = (await createUser(user)).data.userID;
+  });
+  afterEach(async () => {
+    await deleteUser(userID, token);
+  });
   it('success', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
     const token = (await generateToken(user)).data.token;
 
     await authorized(user);
@@ -101,9 +107,6 @@ describe('test info user', () => {
   });
 
   it('without authorized', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
-
     await authorized(user);
     const response = await infoUser(userID);
 
@@ -113,8 +116,6 @@ describe('test info user', () => {
   });
 
   it('with not exist user', async () => {
-    const user = generateUserCredentials();
-    const userID = (await createUser(user)).data.userID;
     const token = (await generateToken(user)).data.token;
 
     await deleteUser(userID, token);

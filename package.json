@@ -4,7 +4,7 @@
   "description": "Создано в рамках курса OTUS JavaScript QA Engineer",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "lint:ci": "eslint .",
     "coverage": "jest --coverage"
   },
