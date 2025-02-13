@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "lint:ci": "eslint .",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
