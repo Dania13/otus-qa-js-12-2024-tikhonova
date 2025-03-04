@@ -6,50 +6,60 @@ const client = axios.create({
   validateStatus: () => true,
 });
 
-export const authorized = async ({ userName, password }) => {
-  const response = await client.post(`${config.baseURL}/Authorized`, {
-    userName,
-    password,
-  });
-
-  return {
-    headers: response.headers,
-    status: response.status,
-    data: await response.data,
-  };
-};
-
-export const generateToken = async ({ userName, password }) => {
-  const response = await client.post(`${config.baseURL}/GenerateToken`, {
-    userName,
-    password,
-  });
-
-  return {
-    headers: response.headers,
-    status: response.status,
-    data: await response.data,
-  };
-};
-export const createUser = async ({ userName, password }) => {
-  const response = await client.post(`${config.baseURL}/User`, {
-    userName,
-    password,
-  });
-
-  return {
-    headers: response.headers,
-    status: response.status,
-    data: await response.data,
-  };
-};
-
-export const deleteUser = async (userID, token) => {
-  const response = await client.delete(`${config.baseURL}/User/${userID}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+const authorizedUser = async ({ userName, password }) => {
+  const response = await client.post(
+    `${config.baseURL}/Account/v1/Authorized`,
+    {
+      userName,
+      password,
     },
+  );
+
+  return {
+    headers: response.headers,
+    status: response.status,
+    data: await response.data,
+  };
+};
+
+const generateToken = async ({ userName, password }) => {
+  const response = await client.post(
+    `${config.baseURL}/Account/v1/GenerateToken`,
+    {
+      userName,
+      password,
+    },
+  );
+
+  return {
+    headers: response.headers,
+    status: response.status,
+    data: await response.data,
+  };
+};
+
+const createUser = async ({ userName, password }) => {
+  const response = await client.post(`${config.baseURL}/Account/v1/User`, {
+    userName,
+    password,
   });
+
+  return {
+    headers: response.headers,
+    status: response.status,
+    data: await response.data,
+  };
+};
+
+const deleteUser = async (userID, token) => {
+  const response = await client.delete(
+    `${config.baseURL}/Account/v1/User/${userID}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 
   return {
     headers: response.headers,
@@ -59,15 +69,26 @@ export const deleteUser = async (userID, token) => {
 };
 
 export const infoUser = async (userID, token) => {
-  const response = await client.get(`${config.baseURL}/User/${userID}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await client.get(
+    `${config.baseURL}/Account/v1/User/${userID}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return {
     headers: response.headers,
     status: response.status,
     data: await response.data,
   };
+};
+
+export default {
+  authorized: authorizedUser,
+  generateToken: generateToken,
+  create: createUser,
+  delete: deleteUser,
+  get: infoUser,
 };
