@@ -1,3 +1,4 @@
+import { addMsg } from 'jest-html-reporters/helper';
 import { UserBookService, UserFixture } from '../framework';
 import { config } from '../framework/config/config';
 
@@ -43,6 +44,10 @@ describe('test autorization', () => {
 describe('test remove user', () => {
   it('success', async () => {
     const user = UserFixture.generateUserCredentials();
+    addMsg({
+      message: `Доступы: ${user.userName}
+      ${user.password}`,
+    });
     const userID = (await UserBookService.create(user)).data.userID;
 
     const token = (await UserBookService.generateToken(user)).data.token;

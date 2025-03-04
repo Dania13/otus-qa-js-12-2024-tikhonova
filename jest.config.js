@@ -107,7 +107,19 @@ const config = {
   // projects: undefined,
 
   // Use this configuration option to add custom reporters to Jest
-  // reporters: [['github-actions', { silent: false }], 'summary'],
+  reporters: [
+    'default',
+    [
+      'jest-html-reporters',
+      {
+        publicPath: './reports/html-report',
+        filename: 'index.html',
+        openReport: true, //!process.env.CI
+      },
+    ],
+    ['github-actions', { silent: false }],
+    'summary',
+  ],
 
   // Automatically reset mock state before every test
   // resetMocks: false,
