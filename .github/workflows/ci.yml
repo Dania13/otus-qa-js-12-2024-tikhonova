@@ -43,6 +43,15 @@ jobs:
       - run: npm ci
       - run: echo "${{ vars.ENV_FILE }}" >> .env
       - run: npm run test
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'reports/html-report'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   notification:
     if: always()
