@@ -9,6 +9,7 @@ export default [
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
+  // ...playwright.configs['flat/recommended'],
   {
     ignores: [
       'node_modules',

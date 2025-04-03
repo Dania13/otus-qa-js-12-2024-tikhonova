@@ -1,3 +1,4 @@
+/* eslint-disable playwright/no-standalone-expect */
 import { BookService, UserBookService, UserFixture } from '../framework';
 
 describe('test BookService.booked', () => {

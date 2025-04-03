@@ -1,3 +1,4 @@
+/* eslint-disable playwright/no-standalone-expect */
 import { UserBookService, UserFixture } from '../framework';
 import { config } from '../framework/config/config';
 
