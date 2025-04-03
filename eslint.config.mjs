@@ -1,7 +1,8 @@
-import globals from 'globals';
 import pluginJs from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import pluginJest from 'eslint-plugin-jest';
+import playwright from 'eslint-plugin-playwright';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -9,7 +10,7 @@ export default [
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
   {
-    ignores: ['node_modules', 'coverage'],
+    ignores: ['node_modules', 'coverage', 'reports', 'playwright-report', 'test-results'],
   },
   {
     files: ['**/*.spec.js', '**/*.test.js'],
@@ -17,6 +18,8 @@ export default [
     languageOptions: { globals: pluginJest.environments.globals.globals },
     rules: {
       'jest/valid-expect': 'warn',
+      ...playwright.configs['flat/recommended'].rules,
+      'playwright/expect-expect': 'off'
     },
   },
 ];
