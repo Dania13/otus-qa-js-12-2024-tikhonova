@@ -10,16 +10,22 @@ export default [
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
   {
-    ignores: ['node_modules', 'coverage', 'reports', 'playwright-report', 'test-results'],
+    ignores: [
+      'node_modules',
+      'coverage',
+      'reports',
+      'playwright-report',
+      'test-results',
+    ],
   },
   {
     files: ['**/*.spec.js', '**/*.test.js'],
-    plugins: { jest: pluginJest },
+    plugins: { jest: pluginJest, playwright: playwright },
     languageOptions: { globals: pluginJest.environments.globals.globals },
     rules: {
       'jest/valid-expect': 'warn',
       ...playwright.configs['flat/recommended'].rules,
-      'playwright/expect-expect': 'off'
+      'playwright/expect-expect': 'off',
     },
   },
 ];
