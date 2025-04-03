@@ -1,4 +1,5 @@
-import { nameIsValid, fullTrim, getTotal } from '../src/app.js';
+/* eslint-disable playwright/no-standalone-expect */
+import { fullTrim, getTotal, nameIsValid } from '../src/app.js';
 
 describe('nameIsValid function', () => {
   it('imports without errors', () => {
