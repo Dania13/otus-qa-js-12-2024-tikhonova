@@ -16,9 +16,6 @@ export default tseslint.config(
   ...tseslint.configs.stylistic,
   {
     ignores: ['reports', 'node-modules', 'backup', 'src/db'],
-    rules: {
-      'eol-last': 'off',
-    },
   },
   {
     files: ['**/*.js'],
