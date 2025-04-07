@@ -1,1 +1,1 @@
-export { default as bookstore } from './config.js';
+export { default as bookstore } from './config';

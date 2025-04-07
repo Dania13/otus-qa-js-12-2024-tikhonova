@@ -1,12 +1,15 @@
 import axios from 'axios';
-import { config } from '../config/config';
+import config from '../config/config';
 
 const client = axios.create({
   baseURL: config.baseURL,
   validateStatus: () => true,
 });
 
-const authorizedUser = async ({ userName, password }) => {
+const authorizedUser = async ({
+  userName,
+  password
+}: any) => {
   const response = await client.post(
     `${config.baseURL}/Account/v1/Authorized`,
     {
@@ -22,7 +25,10 @@ const authorizedUser = async ({ userName, password }) => {
   };
 };
 
-const generateToken = async ({ userName, password }) => {
+const generateToken = async ({
+  userName,
+  password
+}: any) => {
   const response = await client.post(
     `${config.baseURL}/Account/v1/GenerateToken`,
     {
@@ -38,7 +44,10 @@ const generateToken = async ({ userName, password }) => {
   };
 };
 
-const createUser = async ({ userName, password }) => {
+const createUser = async ({
+  userName,
+  password
+}: any) => {
   const response = await client.post(`${config.baseURL}/Account/v1/User`, {
     userName,
     password,
@@ -51,7 +60,7 @@ const createUser = async ({ userName, password }) => {
   };
 };
 
-const deleteUser = async (userID, token) => {
+const deleteUser = async (userID: string, token: string) => {
   const response = await client.delete(
     `${config.baseURL}/Account/v1/User/${userID}`,
     {
@@ -68,7 +77,7 @@ const deleteUser = async (userID, token) => {
   };
 };
 
-export const infoUser = async (userID, token) => {
+export const infoUser = async (userID: string, token: string) => {
   const response = await client.get(
     `${config.baseURL}/Account/v1/User/${userID}`,
     {

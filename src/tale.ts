@@ -1,4 +1,4 @@
-export const kolobok = (nameHero) => {
+export const kolobok = (nameHero: string) => {
   switch (nameHero) {
     case 'дедушка':
       return 'Я от дедушки ушёл';
@@ -11,7 +11,7 @@ export const kolobok = (nameHero) => {
   }
 };
 
-export const newYear = (hero) => {
+export const newYear = (hero: string) => {
   if (['Дед Мороз', 'Снегурочка'].includes(hero)) {
     return `${hero}! ${hero}! ${hero}!`;
   }

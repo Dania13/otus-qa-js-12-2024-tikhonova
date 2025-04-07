@@ -1,7 +1,7 @@
 import { UserBookService, UserFixture } from '../framework';
-import { config } from '../framework/config/config';
+import config from '../framework/config/config';
 
-describe('bookstore tests', () => {
+describe('bookstore tests', () => {  
   it('create existing user', async () => {
     let user = {
       userName: `${config.credentials.userName}`,
@@ -32,18 +32,22 @@ describe('bookstore tests', () => {
 
     expect(response.data.username).toBe(`${user.userName}`);
     const userID = response.data.userID;
+
     expect(userID).not.toBe(undefined);
+
     expect(typeof response.data.userID).toBe('string');
 
     const token = (await UserBookService.generateToken(user)).data.token;
     await UserBookService.delete(userID, token);
   });
+
   it('generate token with error', async () => {
     let user = {
       userName: `${UserFixture.generateUserCredentials().userName}`,
     };
 
     const response = await UserBookService.generateToken(user);
+
 
     expect(response.data.code).toBe('1200');
     expect(response.data.message).toBe('UserName and Password required.');
