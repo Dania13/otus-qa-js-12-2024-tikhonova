@@ -1,22 +1,35 @@
-import globals from 'globals';
-import pluginJs from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import pluginJest from 'eslint-plugin-jest';
+// @ts-check
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
+import pluginJs from '@eslint/js';
+import jest from 'eslint-plugin-jest';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+
+export default tseslint.config(
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
+  ...tseslint.configs.recommended,
+  // DOC: https://typescript-eslint.io/getting-started#additional-configs
+  // ...tseslint.configs.strict,
+  ...tseslint.configs.stylistic,
   {
-    ignores: ['node_modules', 'coverage'],
+    ignores: ['reports', 'node-modules', 'backup'],
   },
   {
-    files: ['**/*.spec.js', '**/*.test.js'],
-    plugins: { jest: pluginJest },
-    languageOptions: { globals: pluginJest.environments.globals.globals },
+    files: ['**/*.js'],
+    extends: [tseslint.configs.disableTypeChecked],
+  },
+  {
+    files: ['**/*.ts'],
     rules: {
-      'jest/valid-expect': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn', // 'warn'
     },
   },
-];
+  // DOC: https://www.npmjs.com/package/eslint-plugin-jest
+  {
+    files: ['test/**', 'setup-jest.js'],
+    ...jest.configs['flat/recommended'],
+  },
+);
