@@ -1,6 +1,6 @@
 import { addMsg } from 'jest-html-reporters/helper';
 import { Credentials, UserBookService, UserFixture } from '../framework';
-import config from '../framework/config/config';
+import config from '../framework/config/configBookstore';
 
 describe('test autorization', () => {
   it('success', async () => {

@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import config from '../config/config';
+import config from '../config/configBookstore';
 
 const bookedForUser = async (token: string, userID: string, isbn: string) => {
   // @ts-expect-error FIXME

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config/config';
+import config from '../config/configBookstore';
 import { Credentials } from '../models';
 
 const client = axios.create({

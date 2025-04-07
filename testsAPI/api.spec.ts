@@ -1,5 +1,5 @@
 import { UserBookService, UserFixture } from '../framework';
-import config from '../framework/config/config';
+import config from '../framework/config/configBookstore';
 
 describe('bookstore tests', () => {
   it('create existing user', async () => {
