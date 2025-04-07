@@ -1,7 +1,8 @@
 import supertest from 'supertest';
-import { config } from '../config/config';
+import config from '../config/config';
 
-const bookedForUser = async (token, userID, isbn) => {
+const bookedForUser = async (token: string, userID: string, isbn: string) => {
+  // @ts-expect-error FIXME
   const response = await supertest(config.baseURL)
     .post('/BookStore/v1/Books')
     .set('Authorization', 'Bearer ' + token)
@@ -21,7 +22,13 @@ const bookedForUser = async (token, userID, isbn) => {
   };
 };
 
-const changedBook = async (token, userID, oldISBN, newISBN) => {
+const changedBook = async (
+  token: string,
+  userID: string,
+  oldISBN: string,
+  newISBN: string,
+) => {
+  // @ts-expect-error FIXME
   const response = await supertest(config.baseURL)
     .put(`/BookStore/v1/Books/${oldISBN}`)
     .set('Authorization', 'Bearer ' + token)
@@ -37,7 +44,7 @@ const changedBook = async (token, userID, oldISBN, newISBN) => {
   };
 };
 
-const bookInfo = async (ISBN) => {
+const bookInfo = async (ISBN: string) => {
   const response = await supertest(`${config.baseURL}`).get(
     `/BookStore/v1/Book?ISBN=${ISBN}`,
   );
@@ -49,7 +56,12 @@ const bookInfo = async (ISBN) => {
   };
 };
 
-const deleteBookforUser = async (token, userID, ISBN) => {
+const deleteBookforUser = async (
+  token: string,
+  userID: string,
+  ISBN: string,
+) => {
+  // @ts-expect-error FIXME
   const response = await supertest(config.baseURL)
     .delete('/BookStore/v1/Book')
     .set('Authorization', 'Bearer ' + token)

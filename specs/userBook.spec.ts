@@ -1,6 +1,6 @@
 import { addMsg } from 'jest-html-reporters/helper';
-import { UserBookService, UserFixture } from '../framework';
-import { config } from '../framework/config/config';
+import { Credentials, UserBookService, UserFixture } from '../framework';
+import config from '../framework/config/config';
 
 describe('test autorization', () => {
   it('success', async () => {
@@ -21,6 +21,7 @@ describe('test autorization', () => {
       userName: `${config.credentials.userName}`,
     };
 
+    // @ts-expect-error FIXME
     const response = await UserBookService.authorized(user);
 
     expect(response.status).toBe(400);
@@ -64,6 +65,7 @@ describe('test remove user', () => {
     const userID = (await UserBookService.create(user)).data.userID;
 
     await UserBookService.authorized(user);
+    // @ts-expect-error FIXME
     const response = await UserBookService.delete(userID);
 
     expect(response.status).toBe(401);
@@ -86,19 +88,24 @@ describe('test remove user', () => {
 });
 
 describe('test get user', () => {
-  let userID, user, token;
+  let userID: string, user: Credentials, token: string;
+
   beforeEach(async () => {
     user = UserFixture.generateUserCredentials();
     userID = (await UserBookService.create(user)).data.userID;
   });
+
   afterEach(async () => {
+    // @ts-expect-error FIXME
     await UserBookService.delete(userID, token);
   });
+
   it('success', async () => {
     const token = (await UserBookService.generateToken(user)).data.token;
 
     await UserBookService.authorized(user);
     const response = await UserBookService.get(userID, token);
+
     expect(response.status).toBe(200);
     expect(response.data.userId).toBe(userID);
     expect(response.data.username).toBe(user.userName);
@@ -106,6 +113,7 @@ describe('test get user', () => {
 
   it('without UserBookService.authorized', async () => {
     await UserBookService.authorized(user);
+    // @ts-expect-error FIXME
     const response = await UserBookService.get(userID);
 
     expect(response.status).toBe(401);

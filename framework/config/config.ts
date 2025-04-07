@@ -1,4 +1,4 @@
-export const config = {
+export default {
   baseURL: process.env.TEST_BOOKSTORE_BASE_URL,
   credentials: {
     userName: process.env.TEST_BOOKSTORE_USERNAME,

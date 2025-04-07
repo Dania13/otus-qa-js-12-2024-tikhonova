@@ -1,9 +1,9 @@
 import { UserBookService, UserFixture } from '../framework';
-import { config } from '../framework/config/config';
+import config from '../framework/config/config';
 
 describe('bookstore tests', () => {
   it('create existing user', async () => {
-    let user = {
+    const user = {
       userName: `${config.credentials.userName}`,
       password: `${config.credentials.password}`,
     };
@@ -14,7 +14,7 @@ describe('bookstore tests', () => {
     expect(response.data.code).toBe('1204');
   });
   it('create user with non valid password', async () => {
-    let user = {
+    const user = {
       userName: `${UserFixture.generateUserCredentials().userName}`,
       password: 'Qwerty',
     };
@@ -27,22 +27,26 @@ describe('bookstore tests', () => {
     expect(response.data.code).toBe('1300');
   });
   it('create user success', async () => {
-    let user = UserFixture.generateUserCredentials();
+    const user = UserFixture.generateUserCredentials();
     const response = await UserBookService.create(user);
 
     expect(response.data.username).toBe(`${user.userName}`);
     const userID = response.data.userID;
+
     expect(userID).not.toBe(undefined);
+
     expect(typeof response.data.userID).toBe('string');
 
     const token = (await UserBookService.generateToken(user)).data.token;
     await UserBookService.delete(userID, token);
   });
+
   it('generate token with error', async () => {
-    let user = {
+    const user = {
       userName: `${UserFixture.generateUserCredentials().userName}`,
     };
 
+    // @ts-expect-error FIXME
     const response = await UserBookService.generateToken(user);
 
     expect(response.data.code).toBe('1200');
@@ -50,7 +54,7 @@ describe('bookstore tests', () => {
   });
 
   it('generate token success', async () => {
-    let user = UserFixture.generateUserCredentials();
+    const user = UserFixture.generateUserCredentials();
 
     await UserBookService.create(user);
 

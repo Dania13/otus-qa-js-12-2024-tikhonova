@@ -1,19 +1,27 @@
-import { BookService, UserBookService, UserFixture } from '../framework';
+import {
+  BookService,
+  Credentials,
+  UserBookService,
+  UserFixture,
+} from '../framework';
 
 describe('test BookService.booked', () => {
-  let userID, token;
+  let userID: string, token: string;
+
   beforeEach(async () => {
     const user = UserFixture.generateUserCredentials();
     userID = (await UserBookService.create(user)).data.userID;
     token = (await UserBookService.generateToken(user)).data.token;
   });
+
   afterEach(async () => {
     await UserBookService.delete(userID, token);
   });
+
   it('success', async () => {
     const isbn = '9781491950296';
-
     const response = await BookService.booked(token, userID, isbn);
+
     expect(response.status).toBe(201);
     expect(response.data.books[0].isbn).toBe(isbn);
   });
@@ -42,15 +50,18 @@ describe('test BookService.booked', () => {
 });
 
 describe('test update book', () => {
-  let userID, token;
+  let userID: string, token: string;
+
   beforeEach(async () => {
     const user = UserFixture.generateUserCredentials();
     userID = (await UserBookService.create(user)).data.userID;
     token = (await UserBookService.generateToken(user)).data.token;
   });
+
   afterEach(async () => {
     await UserBookService.delete(userID, token);
   });
+
   it('success', async () => {
     const isbn = ['9781491950296', '9781449325862'];
 
@@ -98,7 +109,9 @@ describe('test info book', () => {
     const response = await BookService.info(isbn);
 
     expect(response.status).toBe(200);
+
     expect(response.data.isbn).toBe(isbn);
+
     expect(response.data.title).toBe('Programming JavaScript Applications');
   });
 
@@ -107,13 +120,16 @@ describe('test info book', () => {
     const response = await BookService.info(isbn);
 
     expect(response.status).toBe(400);
+
     expect(response.data.code).toBe('1205');
+
     expect(response.data.message).toBe(
       'ISBN supplied is not available in Books Collection!',
     );
   });
 
   it('without book', async () => {
+    // @ts-expect-error FIXME
     const response = await BookService.info();
 
     expect(response.status).toBe(400);
@@ -125,15 +141,18 @@ describe('test info book', () => {
 });
 
 describe('test delete book', () => {
-  let userID, token;
+  let userID: string, token: string;
+
   beforeEach(async () => {
-    const user = UserFixture.generateUserCredentials();
+    const user: Credentials = UserFixture.generateUserCredentials();
     userID = (await UserBookService.create(user)).data.userID;
     token = (await UserBookService.generateToken(user)).data.token;
   });
+
   afterEach(async () => {
     await UserBookService.delete(userID, token);
   });
+
   it('success', async () => {
     const isbn = '9781491950296';
 
