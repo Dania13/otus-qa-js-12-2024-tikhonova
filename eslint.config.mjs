@@ -31,5 +31,8 @@ export default tseslint.config(
   {
     files: ['test/**', 'setup-jest.js'],
     ...jest.configs['flat/recommended'],
+    rules: {
+      'no-commented-out-tests': 'off',
+    },
   },
 );

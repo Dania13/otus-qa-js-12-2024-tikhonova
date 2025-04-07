@@ -1,15 +1,13 @@
 import axios from 'axios';
 import config from '../config/config';
+import { Credentials } from '../models';
 
 const client = axios.create({
   baseURL: config.baseURL,
   validateStatus: () => true,
 });
 
-const authorizedUser = async ({
-  userName,
-  password
-}: any) => {
+const authorizedUser = async ({ userName, password }: Credentials) => {
   const response = await client.post(
     `${config.baseURL}/Account/v1/Authorized`,
     {
@@ -25,10 +23,7 @@ const authorizedUser = async ({
   };
 };
 
-const generateToken = async ({
-  userName,
-  password
-}: any) => {
+const generateToken = async ({ userName, password }: Credentials) => {
   const response = await client.post(
     `${config.baseURL}/Account/v1/GenerateToken`,
     {
@@ -44,10 +39,7 @@ const generateToken = async ({
   };
 };
 
-const createUser = async ({
-  userName,
-  password
-}: any) => {
+const createUser = async ({ userName, password }: Credentials) => {
   const response = await client.post(`${config.baseURL}/Account/v1/User`, {
     userName,
     password,

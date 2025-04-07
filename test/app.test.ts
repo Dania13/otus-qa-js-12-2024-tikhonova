@@ -32,7 +32,6 @@ describe('fullTrim function', () => {
     expect(typeof fullTrim).toBe('function');
   });
 
-
   it('works for spaces inside', () => {
     expect(fullTrim('te   st')).toBe('test');
   });
@@ -42,7 +41,7 @@ describe('fullTrim function', () => {
   });
 
   it('works with empty string', () => {
-    // @ts-expect-error
+    // @ts-expect-error FIIXME
     expect(fullTrim()).toBe('');
   });
 });
@@ -55,27 +54,27 @@ describe('getTotal function', () => {
 
   it('returns error if discount is not number', () => {
     expect(() => {
-      // @ts-expect-error
+      // @ts-expect-error FIIXME
       getTotal([{ price: 10, quantity: 10 }], '50%');
     }).toThrow('Скидка должна быть числом');
   });
 
   it('returns error if discount less 0', () => {
     expect(() => {
-      // @ts-expect-error
+      // @ts-expect-error FIIXME
       getTotal([{ price: 10, quantity: 10 }], -50);
     }).toThrow('Процент скидки должен быть от 0 до 99');
   });
 
   it('returns error if discount more 100', () => {
     expect(() => {
-      // @ts-expect-error
+      // @ts-expect-error FIIXME
       getTotal([{ price: 10, quantity: 10 }], 100);
     }).toThrow('Процент скидки должен быть от 0 до 99');
   });
 
   it('counts without discount is correct', () => {
-      // @ts-expect-error
+    // @ts-expect-error FIIXME
     expect(getTotal([{ price: 10, quantity: 10 }])).toBe(100);
   });
 
@@ -87,9 +86,9 @@ describe('getTotal function', () => {
   it('counts with two items is correct', () => {
     expect(
       getTotal([
-        // @ts-expect-error
+        // @ts-expect-error FIIXME
         { price: 10, name: 'кофеварка', quantity: 10 },
-        // @ts-expect-error
+        // @ts-expect-error FIIXME
         { price: 2, quantity: 3, name: 'мышеловка' },
       ]),
     ).toBe(106);

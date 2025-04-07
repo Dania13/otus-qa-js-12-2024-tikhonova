@@ -3,7 +3,8 @@
  * @param {string} name
  * @returns {boolean}
  */
-export const nameIsValid = (name: any) => typeof name === 'string' && name.length >= 2 && /^[a-z]+$/.test(name);
+export const nameIsValid = (name: any) =>
+  typeof name === 'string' && name.length >= 2 && /^[a-z]+$/.test(name);
 
 /**
  * Удаление пробелов из строки

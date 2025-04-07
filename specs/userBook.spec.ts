@@ -11,7 +11,7 @@ describe('test autorization', () => {
 
     await UserBookService.generateToken(user);
     const response = await UserBookService.authorized(user);
-    
+
     expect(response.status).toBe(200);
     expect(response.data).toBe(true);
   });
@@ -22,7 +22,7 @@ describe('test autorization', () => {
     };
 
     const response = await UserBookService.authorized(user);
-    
+
     expect(response.status).toBe(400);
     expect(response.data.code).toBe('1200');
     expect(response.data.message).toBe('UserName and Password required.');
@@ -41,7 +41,7 @@ describe('test autorization', () => {
   });
 });
 
-describe('test remove user', () => {  
+describe('test remove user', () => {
   it('success', async () => {
     const user = UserFixture.generateUserCredentials();
     addMsg({
@@ -64,7 +64,7 @@ describe('test remove user', () => {
     const userID = (await UserBookService.create(user)).data.userID;
 
     await UserBookService.authorized(user);
-    // @ts-expect-error
+    // @ts-expect-error FIIXME
     const response = await UserBookService.delete(userID);
 
     expect(response.status).toBe(401);
@@ -86,9 +86,8 @@ describe('test remove user', () => {
   });
 });
 
-
 describe('test get user', () => {
-  let userID: any, user: any, token: any;
+  let userID: string, user: string, token: string;
 
   beforeEach(async () => {
     user = UserFixture.generateUserCredentials();
@@ -98,7 +97,7 @@ describe('test get user', () => {
   afterEach(async () => {
     await UserBookService.delete(userID, token);
   });
-  
+
   it('success', async () => {
     const token = (await UserBookService.generateToken(user)).data.token;
 
@@ -112,7 +111,7 @@ describe('test get user', () => {
 
   it('without UserBookService.authorized', async () => {
     await UserBookService.authorized(user);
-    // @ts-expect-error
+    // @ts-expect-error FIIXME
     const response = await UserBookService.get(userID);
 
     expect(response.status).toBe(401);
