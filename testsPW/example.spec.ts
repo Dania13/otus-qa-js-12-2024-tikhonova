@@ -4,8 +4,12 @@ import config from '../framework/config/configSauce';
 test('success autorization', async ({ page }) => {
   await page.goto(config.baseURL);
 
-  await page.getByPlaceholder('Username').pressSequentially(config.credentials.userName);
-  await page.locator('#password').pressSequentially(config.credentials.password);
+  await page
+    .getByPlaceholder('Username')
+    .pressSequentially(config.credentials.userName);
+  await page
+    .locator('#password')
+    .pressSequentially(config.credentials.password);
   await page.getByRole('button', { name: 'Login' }).click();
 
   await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
@@ -22,8 +26,12 @@ test('autorization without required fields', async ({ page }) => {
 test('autorization locked out user', async ({ page }) => {
   await page.goto(config.baseURL);
 
-  await page.getByPlaceholder('Username').pressSequentially(config.credentials.userNameFail);
-  await page.locator('#password').pressSequentially(config.credentials.password);
+  await page
+    .getByPlaceholder('Username')
+    .pressSequentially(config.credentials.userNameFail);
+  await page
+    .locator('#password')
+    .pressSequentially(config.credentials.password);
   await page.getByRole('button', { name: 'Login' }).click();
 
   await expect(page).not.toHaveURL('https://www.saucedemo.com/inventory.html');
@@ -32,7 +40,9 @@ test('autorization locked out user', async ({ page }) => {
 test('autorization with not valid password', async ({ page }) => {
   await page.goto(config.baseURL);
 
-  await page.getByPlaceholder('Username').pressSequentially(config.credentials.userName);
+  await page
+    .getByPlaceholder('Username')
+    .pressSequentially(config.credentials.userName);
   await page.locator('#password').pressSequentially('secret');
   await page.getByRole('button', { name: 'Login' }).click();
 
@@ -44,8 +54,12 @@ test('autorization with not valid password', async ({ page }) => {
 test('open about page', async ({ page }) => {
   await page.goto(config.baseURL);
 
-  await page.getByPlaceholder('Username').pressSequentially(config.credentials.userName);
-  await page.locator('#password').pressSequentially(config.credentials.password);
+  await page
+    .getByPlaceholder('Username')
+    .pressSequentially(config.credentials.userName);
+  await page
+    .locator('#password')
+    .pressSequentially(config.credentials.password);
   await page.getByRole('button', { name: 'Login' }).click();
   await page.getByRole('button', { name: 'Open Menu' }).click();
   await page.locator('#about_sidebar_link').click();
