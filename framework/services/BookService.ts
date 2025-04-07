@@ -2,7 +2,6 @@ import supertest from 'supertest';
 import config from '../config/configBookstore';
 
 const bookedForUser = async (token: string, userID: string, isbn: string) => {
-  // @ts-expect-error FIXME
   const response = await supertest(config.baseURL)
     .post('/BookStore/v1/Books')
     .set('Authorization', 'Bearer ' + token)
@@ -28,7 +27,6 @@ const changedBook = async (
   oldISBN: string,
   newISBN: string,
 ) => {
-  // @ts-expect-error FIXME
   const response = await supertest(config.baseURL)
     .put(`/BookStore/v1/Books/${oldISBN}`)
     .set('Authorization', 'Bearer ' + token)
@@ -61,7 +59,6 @@ const deleteBookforUser = async (
   userID: string,
   ISBN: string,
 ) => {
-  // @ts-expect-error FIXME
   const response = await supertest(config.baseURL)
     .delete('/BookStore/v1/Book')
     .set('Authorization', 'Bearer ' + token)
