@@ -7,7 +7,7 @@
     "test": "jest",
     "lint:ci": "eslint .",
     "coverage": "jest --coverage",
-    "fix": "eslint . --fix & tsc --noEmit --fix",
+    "fix": "eslint . --fix",
     "type-check": "tsc --noEmit"
   },
   "repository": {

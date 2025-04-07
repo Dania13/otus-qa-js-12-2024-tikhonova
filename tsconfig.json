@@ -115,7 +115,9 @@
   ],
   "exclude": [
     "**/*.[js|mjs]",
-    "node_modules"
+    "node_modules",
+    "reports",
+    "src/db"
   ]
 
 }
