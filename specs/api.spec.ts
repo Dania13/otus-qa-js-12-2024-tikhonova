@@ -46,6 +46,7 @@ describe('bookstore tests', () => {
       userName: `${UserFixture.generateUserCredentials().userName}`,
     };
 
+    // @ts-expect-error FIXME
     const response = await UserBookService.generateToken(user);
 
     expect(response.data.code).toBe('1200');

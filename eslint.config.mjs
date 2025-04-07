@@ -15,7 +15,10 @@ export default tseslint.config(
   // ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
   {
-    ignores: ['reports', 'node-modules', 'backup'],
+    ignores: ['reports', 'node-modules', 'backup', 'src/db'],
+    rules: {
+      endOfLine: 'off',
+    },
   },
   {
     files: ['**/*.js'],

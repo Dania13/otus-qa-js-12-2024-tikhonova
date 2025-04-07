@@ -27,6 +27,15 @@ jobs:
       - run: npm ci
       - run: npm run lint:ci
 
+    type-check:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run type-check
+
   test:
     environment:
       name: github-pages

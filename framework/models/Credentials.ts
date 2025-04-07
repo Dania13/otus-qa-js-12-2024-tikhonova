@@ -1,4 +1,4 @@
 export interface Credentials {
   userName: string;
-  password: string;
+  password: string | undefined;
 }

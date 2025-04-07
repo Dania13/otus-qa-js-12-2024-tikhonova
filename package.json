@@ -2,12 +2,13 @@
   "name": "otus-qa",
   "version": "1.0.0",
   "description": "Создано в рамках курса OTUS JavaScript QA Engineer",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "jest",
     "lint:ci": "eslint .",
     "coverage": "jest --coverage",
-    "fix": "eslint . --fix"
+    "fix": "eslint . --fix & tsc --noEmit --fix",
+    "type-check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
