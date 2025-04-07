@@ -1,3 +1,4 @@
+/*eslint eol-last: ["off", "always"]*/
 import { fullTrim, getTotal, nameIsValid } from '../src/app';
 
 describe('nameIsValid function', () => {
