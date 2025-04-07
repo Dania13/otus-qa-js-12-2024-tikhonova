@@ -17,7 +17,7 @@ export default tseslint.config(
   {
     ignores: ['reports', 'node-modules', 'backup', 'src/db'],
     rules: {
-      endOfLine: 'off',
+      'eol-last': 'off',
     },
   },
   {
