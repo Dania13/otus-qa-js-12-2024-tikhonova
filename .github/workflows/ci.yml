@@ -25,7 +25,6 @@ jobs:
           node-version: 22.13.0
           cache: 'npm'
       - run: npm ci
-      - run: npm run fix
       - run: npm run lint:ci
 
   type-check:
