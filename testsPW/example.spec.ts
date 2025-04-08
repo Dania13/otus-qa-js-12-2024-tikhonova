@@ -12,7 +12,7 @@ test('success autorization', async ({ page }) => {
     .pressSequentially(config.credentials.password);
   await page.getByRole('button', { name: 'Login' }).click();
 
-  await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+  await expect(page).toHaveURL(/inventory.html/);
 });
 
 test('autorization without required fields', async ({ page }) => {
@@ -34,7 +34,7 @@ test('autorization locked out user', async ({ page }) => {
     .pressSequentially(config.credentials.password);
   await page.getByRole('button', { name: 'Login' }).click();
 
-  await expect(page).not.toHaveURL('https://www.saucedemo.com/inventory.html');
+  await expect(page).not.toHaveURL(/inventory.html/);
 });
 
 test('autorization with not valid password', async ({ page }) => {
