@@ -8,7 +8,8 @@
     "lint:ci": "eslint .",
     "coverage": "jest --coverage",
     "fix": "eslint . --fix",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test:e2e": "playwright test --ui"
   },
   "repository": {
     "type": "git",
