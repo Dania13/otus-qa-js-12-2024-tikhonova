@@ -1,9 +1,8 @@
 import type { Page } from 'playwright-core';
-import config from '../config/configGlobalQA';
 
 export function LoginPage({ page }: { page: Page }) {
   const visit = async () => {
-    await page.goto(config.baseURL);
+    await page.goto('/angularJs-protractor/BankingProject/#/login');
   };
 
   const choiceCustomerLogin = async () => {

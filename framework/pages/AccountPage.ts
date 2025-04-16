@@ -1,5 +1,4 @@
 import { Page } from 'playwright-core';
-import config from '../config/configGlobalQA';
 
 export function AccountPage({ page }: { page: Page }) {
   const visit = async (site: string) => {
@@ -7,7 +6,7 @@ export function AccountPage({ page }: { page: Page }) {
   };
 
   const isOpen = async () => {
-    await page.goto(`${config.baseURL}/#/account`);
+    await page.goto('/#/account');
   };
 
   const logout = async () => {
@@ -27,7 +26,8 @@ export function AccountPage({ page }: { page: Page }) {
   };
 
   const getBalance = async () => {
-    return page.locator('//strong[2]').textContent();
+    // return page.locator('//strong[2]').textContent();
+    return page.locator('strong').nth(2).textContent();
   };
 
   const inputAmount = async (amount: number) => {

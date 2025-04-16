@@ -10,7 +10,7 @@ test('Успешная авторизация', async ({ page }) => {
   await loginPage.choiceUser();
   await loginPage.submit();
 
-  await expect(page).toHaveURL(/account/);
+  await expect(page).toHaveURL('angularJs-protractor/BankingProject/#/account');
 });
 
 test('После авторизации нужное имя в приветствии', async ({ page }) => {
@@ -33,7 +33,9 @@ test('Успешное разлогирование', async ({ page }) => {
 
   await accountPage.logout();
 
-  await expect(page).toHaveURL(/customer/);
+  await expect(page).toHaveURL(
+    'angularJs-protractor/BankingProject/#/customer',
+  );
 });
 
 test('Увеличение счёта', async ({ page }) => {
