@@ -1,0 +1,5 @@
+npx create-codeceptjs .
+npx codeceptjs init
+npx codeceptjs gpo
+npx codeceptjs def
+npx codeceptjs gherkin:init
