@@ -1,0 +1,82 @@
+name: CI
+
+on: 
+  push:
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  codestyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint:ci
+
+  type-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run type-check
+
+  test:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.11
+          cache: 'npm'
+      - run: npm ci
+      - run: echo "${{ vars.ENV_FILE }}" >> .env
+      - run: npm run test
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'reports/html-report'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  notification:
+    if: always()
+    needs: [ codestyle, test ]
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl --request POST \
+               --url https://api.telegram.org/bot${{ secrets.TEST_TELEGRAM_TOKEN }}/sendMessage \
+               --header 'Content-Type: application/json' \
+                --data '{ "chat_id": "${{ secrets.TEST_TELEGRAM_CHAT_ID }}", "text": "Report link: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" }'

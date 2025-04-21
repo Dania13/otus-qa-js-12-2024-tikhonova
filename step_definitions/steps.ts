@@ -10,16 +10,22 @@ When('Пользователь вводит правильные учетные 
   loginPage.login(user);
 });
 
-Then('Пользователь успешно авторизован и перенаправлен на главную страницу', () => {
-  I.waitInUrl('/inventory.html');
-});
+Then(
+  'Пользователь успешно авторизован и перенаправлен на главную страницу',
+  () => {
+    I.waitInUrl('/inventory.html');
+  },
+);
 
-When('Пользователь вводит логин {string} и пароль {string}', (userName, password) => {
-  loginPage.login({
-    userName,
-    password
-  });
-});
+When(
+  'Пользователь вводит логин {string} и пароль {string}',
+  (userName: string, password: string) => {
+    loginPage.login({
+      userName,
+      password,
+    });
+  },
+);
 
 When('Пользователь не вводит пароль', () => {
   const { user } = config.credentials;
@@ -33,6 +39,6 @@ When('Пользователь не вводит логин', () => {
   loginPage.submitForm();
 });
 
-Then('Отображается ошибка {string}', (errorText) => {
+Then('Отображается ошибка {string}', (errorText: string) => {
   loginPage.expectingError(errorText);
 });

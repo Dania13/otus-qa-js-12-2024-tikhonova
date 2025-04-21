@@ -14,30 +14,30 @@ class loginPage {
     this.errorField = '//h3[@data-test="error"]';
   }
   // insert your methods here
-  visit(){
+  visit() {
     I.amOnPage('/');
   }
 
-  fillName(userName: string){
-      I.fillField('#user-name', userName);
+  fillName(userName: string) {
+    I.fillField('#user-name', userName);
   }
 
-  fillPassword(password: string){
-      I.fillField('#password', password);
+  fillPassword(password: string) {
+    I.fillField('#password', password);
   }
 
-  submitForm(){
+  submitForm() {
     I.click('#login-button');
   }
 
-  login(credentials: {userName: string, password: string}){
+  login(credentials: { userName: string; password: string }) {
     this.visit();
     this.fillName(credentials.userName);
     this.fillPassword(credentials.password);
     this.submitForm();
   }
 
-  expectingError(errorText){
+  expectingError(errorText: string) {
     I.seeInField(this.errorField, errorText);
   }
 }
