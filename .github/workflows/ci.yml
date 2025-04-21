@@ -39,11 +39,12 @@ jobs:
           node-version: 22.11
           cache: 'npm'
       - run: npm ci
+      - run: npx playwright install
       - run: npm run codeceptjs:headless
 
   notification:
     if: always()
-    needs: [ codestyle, test ]
+    needs: [ codestyle, test, type-check ]
 
     environment:
       name: github-pages
