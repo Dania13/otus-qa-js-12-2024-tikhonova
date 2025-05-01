@@ -39,7 +39,6 @@ jobs:
           node-version: 22.11
           cache: 'npm'
       - run: npm ci
-      - run: npx playwright install
       - run: npm run codeceptjs
 
   notification:
