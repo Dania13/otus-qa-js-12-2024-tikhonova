@@ -4,7 +4,7 @@ exports.config = {
     Playwright: {
       browser: 'chromium',
       url: 'https://www.saucedemo.com',
-      show: true,
+      show: !process.env.CI,
     },
   },
   include: {
