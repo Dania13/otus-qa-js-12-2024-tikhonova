@@ -1,5 +1,0 @@
-{
-  "cucumberautocomplete.steps": [
-        "./step_definitions/*.ts",
-  ],
-}
