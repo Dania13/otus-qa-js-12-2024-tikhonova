@@ -27,13 +27,13 @@ When(
   },
 );
 
-When('Пользователь не вводит пароль', () => {
+When('Пользователь отправляет форму только с логином', () => {
   const { user } = config.credentials;
   loginPage.fillName(user.userName);
   loginPage.submitForm();
 });
 
-When('Пользователь не вводит логин', () => {
+When('Пользователь отправляет форму только с паролем', () => {
   const { user } = config.credentials;
   loginPage.fillPassword(user.password);
   loginPage.submitForm();
